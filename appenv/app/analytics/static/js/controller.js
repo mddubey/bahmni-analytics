@@ -1,5 +1,5 @@
 angular.module('analytics.controllers', []).
-controller('reportsController', function($scope, reportService) {
+controller('reportController', function($scope, reportService) {
     reportService.getAllReports()
 	.then(function (response) {
     	$scope.reports = response.data;
@@ -10,7 +10,6 @@ controller('reportsController', function($scope, reportService) {
 	$scope.fetchData = function(reportName){
 		reportService.getReportData(reportName)
 		.then(function(response){
-			console.log(response.data)
 			$scope.reportData = response.data;
 		}, function(response){
 			console.log(response);

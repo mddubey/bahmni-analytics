@@ -14,16 +14,7 @@
     <script src="{% static '/js/service.js' %}"></script>
     <script src="{% static '/js/controller.js' %}"></script>
   </head>
-  {% verbatim %}
-  <body ng-app="analytics" ng-controller="reportsController">
-    <div>
-      <li ng-repeat="report in reports">
-      	<span>{{report}}</span>
-      	<button ng-click="fetchData(report)">Fetch Data</button>
-      </li>
-
-    </div>
-    <div id="chart"></div>
-  {% endverbatim %}
+  <body ng-app="analytics">
+    <div ng-view></div>
   </body>
 </html>

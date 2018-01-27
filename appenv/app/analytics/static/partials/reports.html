@@ -1,0 +1,18 @@
+<div ng-controller="reportController">
+    <li ng-repeat="report in reports">
+        <span>{{report}}</span>
+        <button ng-click="fetchData(report)">Fetch Data</button>
+    </li>
+
+    <div ng-repeat="(name,data) in reportData">
+        <span>{{name}}</span>
+        <table>
+            <tr>
+                <th ng-repeat="(key,val) in data[0]">{{ key }}</th>
+            </tr>
+            <tr ng-repeat="rows in data">
+                <td ng-repeat="(key,val) in data[0]"> {{ val }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
