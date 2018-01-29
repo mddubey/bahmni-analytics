@@ -34,7 +34,6 @@ def reportData(request):
 
     url = '%s/bahmnireports/report' % bahmni_base_url
     response = requests.get(url, verify=False, cookies=(loginAndGetCookies()), params=report_params)
-    print(response.content)
     return JsonResponse(json.loads(response.content), safe=False)
 
 

@@ -6,13 +6,17 @@
 
     <div ng-repeat="(name,data) in reportData">
         <span>{{name}}</span>
-        <table>
-            <tr>
-                <th ng-repeat="(key,val) in data[0]">{{ key }}</th>
-            </tr>
-            <tr ng-repeat="rows in data">
-                <td ng-repeat="(key,val) in data[0]"> {{ val }}</td>
-            </tr>
+        <table id="dt-{{ name }}" ui-jq="dataTable">
+            <thead>
+                <tr>
+                    <th ng-repeat="(key,val) in data[0]">{{ key }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="row in data">
+                    <td ng-repeat="(key,val) in row"> {{ val }}</td>
+                </tr>
+            </tbody>
         </table>
     </div>
 </div>
