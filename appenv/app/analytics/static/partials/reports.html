@@ -6,7 +6,7 @@
 
     <div ng-repeat="(name,data) in reportData">
         <span>{{name}}</span>
-        <table id="dt-{{ name }}" ui-jq="dataTable">
+        <table id="dt-{{ name }}" ui-jq="dataTable" class="display dataTable" cellspacing="0" width="100%">
             <thead>
                 <tr>
                     <th ng-repeat="(key,val) in data[0]">{{ key }}</th>
@@ -19,4 +19,7 @@
             </tbody>
         </table>
     </div>
+    <ng-include src="'/static/partials/charts.html'"></ng-include>
+</div>
+
 </div>
