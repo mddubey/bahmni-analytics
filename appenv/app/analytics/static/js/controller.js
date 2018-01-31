@@ -11,42 +11,7 @@ controllers.controller('reportController', function ($scope, reportService) {
         var tableSelector = "[id^='dt-']";
         angular.element(jQuery(tableSelector)).ready(function () {
             jQuery(tableSelector).each(function () {
-                jQuery(this).DataTable({
-                    dom: 'Bfrtip',
-                    buttons: [
-                        {
-                            text: 'Show Chart',
-                            action: function (e, dt) {
-                                let data = dt.buttons.exportData();
-                                let columnsData = dt.columns().data();
-                                let allData = data.header.reduce(function (acc, curr, i) {
-                                    acc[curr] = columnsData[i];
-                                    return acc;
-                                }, {});
-                                let excludedCols = ['base_sort_order','concept_id', 'age_group',
-                                    'visit_type', 'sort_order'];
-                                let chartData = {};
-                                for(let key in allData){
-                                    if(!excludedCols.includes(key)){
-                                        chartData[key] = allData[key];
-                                    }
-                                }
-                                c3.generate({
-                                    bindto: '#chart',
-                                    data: {
-                                        json: chartData,
-                                        type: 'bar',
-                                    },
-                                    axis: { x: {
-                                        type: 'category',
-                                        categories: [...new Set(chartData["concept_name"])]
-                                    }},
-
-                                });
-                            }
-                        }
-                    ]
-                });
+                jQuery(this).DataTable();
             })
 
         })
@@ -60,5 +25,49 @@ controllers.controller('reportController', function ($scope, reportService) {
             }, function (response) {
                 console.log(response);
             })
+    };
+    $scope.showChart = function (reportName) {
+        let currentTableData = $scope.reportData[reportName];
+
+        let category = 'categories';
+        let groupCol = ["concept_name"];
+        let valueColumns = ['other', 'total', 'female', 'male'];
+
+        let groups = _(currentTableData).groupBy(function (data) {
+            return groupCol.map(function (grp) {
+                return data[grp]
+            }).join("#");
+        });
+
+        let chartData = _(groups).map(function (group, groupKey) {
+            let totalForGroup = _(group).reduce(function (acc, x) {
+               valueColumns.forEach(function (val) {
+                   acc[val] = acc[val] || 0;
+                   acc[val] += x[val];
+               });
+               return acc;
+            },{});
+            totalForGroup[category] = groupKey;
+            return totalForGroup;
+        });
+
+        let chartType = 'bar';
+        c3.generate({
+            bindto: '#chart',
+            data: {
+                json: chartData,
+                type: 'bar',
+                keys: {
+                    x: category,
+                    value: valueColumns
+                }
+            },
+            axis: {
+                x: {
+                    type: 'categorized'
+                }
+            }
+
+        });
     }
 });
