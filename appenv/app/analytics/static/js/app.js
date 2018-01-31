@@ -1,6 +1,7 @@
 analyticsApp = angular.module('analytics', ['ngRoute',
     'analytics.services',
-    'analytics.controllers'
+    'analytics.controllers',
+    'ui.bootstrap'
 ]);
 
 analyticsApp.config(function ($routeProvider) {
